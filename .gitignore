@@ -1,0 +1,5 @@
+sketches/
+node_modules/
+codegen/
+rest/
+.env

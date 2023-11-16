@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  title: flashcards - OpenAPI 3.0
+  description: |-
+    Simple flashcard app
+  version: 0.0.0
+servers:
+  - url: http://localhost:7000/api/v0
+tags:
+  - name: flashcards
+    description: simple flashcards app
+  - name: users
+    description: Operations about users
+paths:
+  /flashcards/{flashcardId}:
+    get:
+      tags:
+        - flashcards
+      summary: Get flashcard by id
+      parameters:
+        - $ref: '#/components/parameters/path-flashcard-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/flashcard'
+        '404':
+          description: "Not found: flashcard does not exist"
+    put:
+      tags:
+        - flashcards
+      summary: Update flashcard by id
+      parameters:
+        - $ref: '#/components/parameters/path-flashcard-id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/flashcard'
+      responses:
+        '200': 
+          description: "OK: flashcard updated"
+        '404':
+          description: "Not found: flashcard does not exist"
+    delete:
+      tags:
+        - flashcards
+      summary: Delete flashcard by id
+      parameters:
+        - $ref: '#/components/parameters/path-flashcard-id'
+      responses:
+        '204':
+          description: "No content: flashcard deleted"
+  /flashcards:
+    get:
+      tags:
+        - flashcards
+      summary: Filter flashcards by criteria, e. g. username, userId, ...
+      parameters:
+        - $ref: '#/components/parameters/query-username'
+        - $ref: '#/components/parameters/query-user-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/flashcards'
+        '404':
+          description: No such username or userId
+    post:
+      tags:
+        - flashcards
+      summary: Add flashcard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/flashcard'
+      responses:
+        '201':
+          description: Successfully added new flashcard
+  /users/{userId}:
+    get:
+      tags:
+        - users
+      summary: Get user by id
+      parameters:
+        - $ref: '#/components/parameters/path-user-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: "Not Found: No user with given id"
+    put:
+      tags:
+        - users
+      summary: Update user information
+      parameters:
+        - $ref: '#/components/parameters/path-user-id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: "Not Found: No user with given id"
+    delete:
+      tags:
+        - users
+      summary: Delete user by id
+      parameters:
+        - $ref: '#/components/parameters/path-user-id'
+      responses:
+        '200':
+          description: "OK: User deleted"
+        '404':
+          description: "Not Found: No user with given id"
+components:
+  schemas:
+    flashcard:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        front:
+          type: string
+        back:
+          type: string
+      required:
+        - front
+        - back
+      example:
+        value:
+          id: 0
+          front: Tag
+          back: day
+    flashcards:
+      type: array
+      items:
+        $ref: '#/components/schemas/flashcard'
+      example:
+        value:
+          - id: 0
+            front: Tag
+            back: day
+          - id: 1
+            front: Nacht
+            back: night
+          - id: 2
+            front: Sonne
+            back: sun
+          - id: 3
+            front: Mond
+            back: moon
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+      example:
+        value:
+          id: 101
+          username: Peter
+  parameters:
+    path-flashcard-id:
+      name: flashcardId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Numeric id of a flashcard
+    path-user-id:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Numeric id of a user
+    query-user-id:
+      name: userId
+      in: query
+      schema:
+        type: integer
+        format: int64
+    query-username:
+      in: query
+      name: username
+      schema:
+        type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api-key
+      in: header

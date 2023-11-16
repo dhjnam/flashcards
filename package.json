@@ -2,11 +2,13 @@
   "name": "flashcards",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api.js",
   "scripts": {
-    "start": "node --watch api.js",
-    "test": "export NODE_ENV=test && (find . \\( -regex '.*.js$' -o -regex '.*.yaml$' -o -regex '.*.json' \\) -not -path './codegen/**' -not -path './node_modules/**' -not -path './sketches/**' | entr mocha tests/**)",
-    "watch": "export NODE_ENV=test && mocha --watch tests/**"
+    "dev": "export NODE_ENV=dev && node --watch api",
+    "dev-db": "mongod --dbpath ./db/tmp --port 27017 &",
+    "seed-test-db": "export NODE_ENV=test && node seed",
+    "test-db": "mongod --dbpath ./tests/db/tmp --port 27018 &",
+    "test": "export NODE_ENV=test && mocha --watch tests"
   },
   "author": "Johannes Nam",
   "license": "ISC",

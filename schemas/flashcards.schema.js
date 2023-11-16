@@ -53,8 +53,8 @@ const mongoose = require('mongoose');
 
 const flashcardSchema = new mongoose.Schema({
   id: Number,
-  front: String,
-  back: String
+  front: { type: String, default: '' },
+  back: { type: String, default: '' }
 })
 
 const Flashcard = mongoose.models.Flashcard || mongoose.model('Flashcard', flashcardSchema);

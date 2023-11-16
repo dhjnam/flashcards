@@ -42,5 +42,15 @@ describe('GET /flashcards/{flashcardId}', function() {
         done();
       });
   });
+  it('it returns 404 if flashcard does not exist', function(done) {
+    const id = -1
+    chai.request(this.server)
+      .get(`/api/v${V}/flashcards/${id}`)
+      .end(function(err, res) {
+        should.not.exist(err);
+        res.should.have.status(404);
+        done();
+      });
+  })
 
 });

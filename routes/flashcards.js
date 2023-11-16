@@ -22,10 +22,12 @@ const Flashcard = require('../schemas/flashcards.schema')
  *         description: "Not found: flashcard does not exist"
  */
 router.get('/:flashcardId', async function(req, res, next) {
-  const flashcard = await Flashcard.findOne({
-    id: req.params.flashcardId
-  });
-  res.json(flashcard)
+  const flashcard = await Flashcard.findOne({ id: req.params.flashcardId });
+  if (!flashcard) {
+    res.status(404).json({ message: 'Not Found: flashcard does not exist' });
+    return;
+  }
+  res.json(flashcard);
 });
 
 module.exports = router;

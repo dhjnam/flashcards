@@ -4,11 +4,11 @@
   "description": "",
   "main": "api.js",
   "scripts": {
+    "dev-launch-db": "mongod --dbpath ./db/dev/tmp --port 27017 &",
     "dev": "export NODE_ENV=dev && node --watch api",
-    "dev-db": "mongod --dbpath ./db/tmp --port 27017 &",
-    "seed-test-db": "export NODE_ENV=test && node seed",
-    "test-db": "mongod --dbpath ./tests/db/tmp --port 27018 &",
-    "test": "export NODE_ENV=test && mocha --watch tests"
+    "test-seed-db": "export NODE_ENV=test && node seed",
+    "test-launch-db": "mongod --dbpath ./db/test/tmp --port 27018 &",
+    "test": "export NODE_ENV=test && node seed && mocha --watch tests"
   },
   "author": "Johannes Nam",
   "license": "ISC",

@@ -2,5 +2,6 @@ sketches/
 node_modules/
 codegen/
 rest/
-**/db/tmp
+db/test/tmp
+db/dev/tmp
 *.env
